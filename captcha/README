@@ -1,0 +1,9 @@
+This folder contains files for testing purpose only.
+
+captcha.php and captcha_cn.php are copied into func/.
+
+test_captcha.php can get all font library files in the local machine and display an image containing a string in this font,
+it also allows a user to enter a Chinese string and show it in an image, and also echo the text.
+
+X.C.
+2013-07-16

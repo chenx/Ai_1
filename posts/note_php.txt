@@ -1,0 +1,54 @@
+PHP notes - Programming PHP.
+
+upload - p172
+Graphics
+PDF
+XML
+Web service: XML_RPC, SOAP, Rest
+email
+COM
+ODBC
+Excel
+Access
+
+Database connection: 
+  PEAR - unified interface for MySQL/postgreSQL etc. but not helpful when SQL is different.
+  mysql_connect
+  DB::connect
+
+echo: print 1 or more objects.
+print: print 1
+printf: use format string
+print_r ~ var_dump()
+
+ereg: posix match
+preg: perl style match
+
+class - serialize
+
+XML
+  expat
+  simplexml
+  XSLT
+
+Garbage Collection:
+  reference counting
+  copy on write - keep single/shallow copy until write to one copy, then a duplicate is allocated to write to.
+
+Include - warning if not exist
+Require - fatal error if not exist
+
+Silence warning: @include.
+
+function scope static: same as in C
+
+pass by reference: & in fxn header.
+return ref: &, but since copy on write is used, this is less effience than directly return.
+
+create_function: lymda, anonymous function.
+
+Heredoc: <<<EOF ... EOF;
+
+$_GET/POST/REQUEST/COOKIE/SESSION
+
+

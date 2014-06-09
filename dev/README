@@ -1,0 +1,185 @@
+This is a demo site of php.
+
+
+7/16/2013
+
+- Added captcha in Chinese.
+  getpwd_cn.php, for example, now can use Chinese captcha.
+  - New folder captcha contains the testing code, and final working code.
+    The key is to load a font library that contains Chinese fonts.
+    Then use function imagettftext() to draw the Chinese characters.
+    Also need to set the web files to use UTF-8 font, and include meta header to use UTF-8 too.
+  - Now captcha.php and captcha_cn.php are both copied into /func.
+    captcha.php generates captcha image using English characters and numbers.
+    captcha_cn.php generates captcha image using Chinese characters.
+    The font library file is included in /func.
+
+
+6/26/2013
+
+- Added a theme page - centered arrangement.
+
+6/21/2013
+
+- Make payment using papal.
+  Add this function for e-commerce website.
+  https://developer.paypal.com/webapps/developer/docs/classic/paypal-payments-standard/ht_create-pps-buttons/
+  Paypal transaction fee is: 2.9% + $0.3, see here:
+  https://www.paypal.com/webapps/mpp/paypal-payments-standard
+  - Question:
+    After transaction, I will receive an email about it.
+    This is not a problem if I ship the product to the user.
+    But if I let the user download something after purchase, how do I know?
+    - See: https://developer.paypal.com/webapps/developer/docs/classic/use-cases/
+    - Selling Digital Goods on a Website:
+         https://www.paypal.com/us/webapps/mpp/digital-goods
+
+- Some problem exists for conf/mdb.sql. It complains:
+    svn: E155015: '/home2/cssauhco/public_html/xc/Ai/conf/mdb.sql' is an existing item in conflict; please mark the conflict as resolved before adding a new item here
+  Solution is below:
+    http://stackoverflow.com/questions/2406469/svn-remains-in-conflict
+    svn remove --force filename
+    svn resolve --accept=working  filename
+    svn commit
+
+
+5/24/2013
+
+- change all <?= to <? echo, so no more compatibility issue on mac.
+- change profile.php to profile_v0.php, and adapt register.php to profile.php.
+  profile_v0.php is: edit -> submit -> update
+  prfile.php     is: edit -> verify -> submit -> update
+  Cls_DBTable.php is changed accordingly.
+- in admin_images.php, don't display folder names starting with ".".
+- For page height of admin_images.php, maybe can get the height in index.php, and store it as a session variable.
+
+5/5/2013
+
+- http://www.linuxquestions.org/questions/linux-software-2/find-and-replace-text-in-multiple-file-203801/
+
+5/4/2013
+
+- String.trim() does not work in IE. So
+    if (document.getElementById('txtLogin').value.trim() == '' ||
+        document.getElementById('txtCaptcha').value.trim() == '') {
+    //if ($.trim( $("#txtLogin").val() ) == '' || $.trim( $("#txtCaptcha").val() ) == "") {
+    //    alert("Please enter both login name and image code.");
+    } else {
+        document.forms[0].submit();
+    }
+  will fail in IE, which reports javascript error.
+  Use jQuery instead. See code in comment above.
+- CSS dropdown menu does not work in IE. Use javascript instead should make it work.
+
+5/3/2013
+
+- Update captcha image.
+  for firefox, it won't reload if the image src is the same.
+  So trick it to think the url is differet by using a random variable.
+
+  function changeCaptcha(o) {
+    // for firefox, it won't reload if the image src is the same.
+    // So trick it to think the url is differet by using a random variable.
+
+    //$("#imgC").attr('src', "captcha.php?" + Math.random());
+    document.getElementById('imgC').src = "captcha.php?" + Math.random();
+
+    // Use this to avoid clicking the button to frequently, and server side memory usage
+    // will soar: http://forums.mozillazine.org/viewtopic.php?f=25&t=581886&p=3042312
+    // when o is an image, o.disabled is useful for IE only.
+    // If o is a button, it works in all.
+    o.disabled = true;
+    setTimeout(enableButton, 500);
+    //o.disabled = false;
+ }
+
+  function enableButton() {
+    document.getElementById('btnChange').disabled = false;
+  }
+
+- Need to add verify page for admin edit table function.
+  This can be second paradigm.
+  Verify page is needed for register in general. 
+  But for admin it's optional.
+- For verify page, posted back parameters need be html_encoded to keep orginal value,
+  otherwise special chars like " or <, > can cause problem.
+
+5/2/2013
+
+- Create PDF file
+  - One popular free/open source library: FPDF.
+    http://fpdf.org/
+    http://fpdf.org/en/tutorial/index.php
+    http://fpdf.org/en/tutorial/tuto3.htm
+    http://answers.oreilly.com/topic/1414-how-to-generate-a-pdf-with-php/
+
+5/1/2013
+
+- Use multiple select in file upload dialog:
+  HTML5 allows this.
+  http://stackoverflow.com/questions/1175347/how-can-i-select-and-upload-multiple-files-with-html-and-php-using-http-post
+  This is compatile with browsers that do not support HTML5 (e.g. IE), in such situation only 1 file is upload.
+- Use multiple lines in javascritp alert(): "\\n"
+
+- validate image type after upload:
+  http://www.bitrepository.com/how-to-validate-an-image-upload.html
+
+- Icons (GPL) from:
+  http://www.iconfinder.com/icondetails/9686/24/arrow_back_cancel_load_refresh_repeat_icon
+
+- Create captcha: http://wyden.com/web/php/basics-1/how-to-implement-captcha-with-php
+
+4/30/2013
+
+- Added page: Manage Image.
+  - To dynamically obtain page height, so to make file list height just in page height,
+    in menu.php and adminhome.php, get $(window).height() in javascript, open the page
+    admin_images.php using javascript window.location.href, pass win_h, then in the
+    admin_images.php page, use a hidden form variable to keep windows height.
+- after window resize, update win_h. 
+  http://stackoverflow.com/questions/2854407/javascript-jquery-window-resize-how-to-fire-after-the-resize-is-completed
+
+4/29/2013
+
+- data functions:
+  http://php.net/manual/en/function.date.php
+- backup and restore mysql db using mysqldump:
+  http://www.thegeekstuff.com/2008/09/backup-and-restore-mysql-database-using-mysqldump/
+- read a dir:
+  http://php.net/manual/en/function.readdir.php
+- delete a file:
+  http://www.php.net/manual/en/function.unlink.php
+- *** The "Rigth way" to handle file downloads in PHP:
+  http://www.richnetapps.com/the-right-way-to-handle-file-downloads-in-php/
+
+4/28/2013
+
+- PHP5 xml parse.
+  http://blog.teamtreehouse.com/how-to-parse-xml-with-php5
+  http://php.net/manual/en/simplexml.examples-basic.php
+  <?php
+    $mysongs = simplexml_load_file('songs.xml');
+    echo $mysongs->song[0]->artist;
+    echo $mysongs->song[1]['dateplayed']; // for attribute.
+
+    $movies = new SimpleXMLElement($xmlstr);
+    foreach ($movies->xpath('//character') as $character) {
+        echo $character->name, 'played by ', $character->actor, PHP_EOL;
+    }
+  ?>
+
+4/27/2013
+
+Setup svn: 
+https://webai.googlecode.com/svn/trunk/ webai --username tx...@gmail.com
+
+- remove a file from version control w/o deleting it:
+  $ svn rm --keep-local my_important_file
+
+- setup svn's config:
+  /home2/[account]/.subversion/servers
+
+4/25/2013
+
+Site setup.
+

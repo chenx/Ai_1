@@ -1,0 +1,9 @@
+To create a new website from this framework:
+
+1) copy _conf.php to conf.php, change database settting parameters.
+2) copy _makedb.sql to makedb.sql, change parameters.
+3) copy _load_db.sql to load_db.sql, change parameters.
+4) follow instructions in makedb.sql and load_db.sql, 
+   run in a mysql shell to create the database and load default data.
+
+4/29/2013
