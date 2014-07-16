@@ -1,7 +1,7 @@
 Ai_1
 ====
 
-PHP website framework
+PHP website framework.
 
 ---
 Author:  X. Chen  
